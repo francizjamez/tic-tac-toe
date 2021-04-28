@@ -26,14 +26,14 @@ function App() {
     if (winnerX || winnerO || draw) {
       setGameOver(true);
     }
+    if (draw) {
+      setGameState("It's a tie");
+    }
     if (winnerX) {
       setGameState("Winner: Player 1");
     }
     if (winnerO) {
       setGameState("Winner: Player 2");
-    }
-    if (draw) {
-      setGameState("It's a tie");
     }
   };
 
