@@ -1,4 +1,5 @@
 import Board from "./Components/Board";
+import History from "./Components/History";
 import "./Styles/styles.css";
 
 import { useState } from "react";
@@ -9,6 +10,8 @@ function App() {
   const [gameState, setGameState] = useState("Game is in progress");
   const [gameOver, setGameOver] = useState(false);
   const [history, setHistory] = useState([initialStates]);
+  const [currentTurn, setCurrentTurn] = useState(initialStates);
+  const [turnNumber, setTurnNumber] = useState(1);
 
   const checkGameState = (values) => {
     const board2D = generateBoard(values);
@@ -16,6 +19,9 @@ function App() {
     let winnerX = checkWinner("X", board2D);
     let winnerO = checkWinner("O", board2D);
     let draw = checkDraw(values);
+
+    setGameOver(false);
+    setGameState("Game is in progress");
 
     if (winnerX || winnerO || draw) {
       setGameOver(true);
@@ -29,25 +35,44 @@ function App() {
     if (draw) {
       setGameState("It's a tie");
     }
+  };
 
-    // saveHistory(values);
+  const goToMove = (turn) => {
+    setCurrentTurn(history[turn]);
+    checkGameState(history[turn]);
+    setTurnNumber(turn + 1);
+    console.log(turn);
+  };
+
+  const play = (values) => {
+    setCurrentTurn([...values]);
+    setTurnNumber(turnNumber + 1);
   };
 
   const saveHistory = (values) => {
     let newHistory = history.map((el) => [...el]);
     console.log(newHistory);
-    newHistory.push([...values]);
+    newHistory[turnNumber] = [...values];
+    newHistory = newHistory.slice(0, turnNumber + 1);
+
+    console.log(newHistory);
+    console.log(turnNumber);
     setHistory(newHistory);
   };
 
   return (
     <div className="App">
       <h1>{gameState}</h1>
-      <Board
-        stateCheck={checkGameState}
-        gameOver={gameOver}
-        saveHistory={saveHistory}
-      />
+      <div className="container">
+        <Board
+          stateCheck={checkGameState}
+          gameOver={gameOver}
+          saveHistory={saveHistory}
+          currentTurn={currentTurn}
+          play={play}
+        />
+        <History turns={history} goToMove={goToMove} />
+      </div>
     </div>
   );
 }

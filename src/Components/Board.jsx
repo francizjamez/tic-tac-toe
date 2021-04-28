@@ -1,9 +1,10 @@
 import Tile from "./Tile";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
-const Board = ({ stateCheck, gameOver, saveHistory }) => {
+const Board = ({ stateCheck, gameOver, saveHistory, currentTurn, play }) => {
   const [turn, setTurn] = useState(0);
-  const [values, setValues] = useState(new Array(9).fill(" "));
+  // const [values, setValues] = useState(new Array(9).fill(" "));
+  const values = currentTurn;
 
   const placeSymbol = (id, value) => {
     if (value !== " ") {
@@ -28,17 +29,10 @@ const Board = ({ stateCheck, gameOver, saveHistory }) => {
     }
 
     setTurn(turn + 1);
-    setValues(newValues);
+    play(newValues);
+    stateCheck(newValues);
+    saveHistory(newValues);
   };
-
-  useEffect(() => {
-    stateCheck(values);
-    // saveHistory(values);
-  }, [values, stateCheck]);
-
-  useEffect(() => {
-    stateCheck(values);
-  }, [values, stateCheck]);
 
   let tileSet = new Array(9).fill(0);
   tileSet = tileSet.map((tile, i) => (
