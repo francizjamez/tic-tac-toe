@@ -12,6 +12,7 @@ function App() {
   const [history, setHistory] = useState([initialStates]);
   const [currentTurn, setCurrentTurn] = useState(initialStates);
   const [turnNumber, setTurnNumber] = useState(1);
+  const [playerTurn, setPlayerTurn] = useState(0);
 
   const checkGameState = (values) => {
     const board2D = generateBoard(values);
@@ -41,6 +42,7 @@ function App() {
     setCurrentTurn(history[turn]);
     checkGameState(history[turn]);
     setTurnNumber(turn + 1);
+    setPlayerTurn(turn);
     console.log(turn);
   };
 
@@ -70,6 +72,8 @@ function App() {
           saveHistory={saveHistory}
           currentTurn={currentTurn}
           play={play}
+          turn={playerTurn}
+          setTurn={setPlayerTurn}
         />
         <History turns={history} goToMove={goToMove} />
       </div>

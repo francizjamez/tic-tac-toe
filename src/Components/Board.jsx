@@ -1,8 +1,15 @@
 import Tile from "./Tile";
-import { useState } from "react";
 
-const Board = ({ stateCheck, gameOver, saveHistory, currentTurn, play }) => {
-  const [turn, setTurn] = useState(0);
+const Board = ({
+  stateCheck,
+  gameOver,
+  saveHistory,
+  currentTurn,
+  play,
+  turn,
+  setTurn,
+}) => {
+  // const [turn, setTurn] = useState(0);
   // const [values, setValues] = useState(new Array(9).fill(" "));
   const values = currentTurn;
 
